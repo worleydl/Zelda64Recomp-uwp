@@ -10,6 +10,8 @@
 #include "promptfont.h"
 #include "GamepadMotion.hpp"
 
+#include "hle/rt64_uwp_mods.h"
+
 constexpr float axis_threshold = 0.5f;
 
 struct ControllerState {
@@ -302,7 +304,7 @@ void recomp::handle_events() {
     SDL_Event cur_event;
     static bool started = false;
     static bool exited = false;
-    while (SDL_PollEvent(&cur_event) && !exited) {
+    while (SDL_PollEvent(&cur_event) && !exited && !showing_inspector) {
         exited = sdl_event_filter(nullptr, &cur_event);
 
         // Lock the cursor if all three conditions are true: mouse aiming is enabled, game input is not disabled, and the game has been started. 
@@ -734,7 +736,7 @@ void recomp::set_right_analog_suppressed(bool suppressed) {
 
 bool recomp::game_input_disabled() {
     // Disable input if any menu that blocks input is open.
-    return recompui::is_context_capturing_input();
+    return showing_inspector || recompui::is_context_capturing_input();
 }
 
 bool recomp::all_input_disabled() {

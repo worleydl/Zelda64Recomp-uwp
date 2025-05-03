@@ -12,7 +12,8 @@
 
 #include "ultramodern/ultra64.h"
 #include "ultramodern/ultramodern.hpp"
-#define SDL_MAIN_HANDLED
+// DLW: For external launch on UWP
+//#define SDL_MAIN_HANDLED
 #ifdef _WIN32
 #include "SDL.h"
 #else

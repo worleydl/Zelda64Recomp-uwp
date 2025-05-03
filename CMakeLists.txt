@@ -145,7 +145,8 @@ add_custom_command(OUTPUT
 )
 
 # Main executable
-add_executable(Zelda64Recompiled)
+# DLW: Modded to a static lib for UWP launch
+add_library(Zelda64Recompiled STATIC)
 
 set (SOURCES
     ${CMAKE_SOURCE_DIR}/src/main/main.cpp
@@ -281,6 +282,9 @@ if (WIN32)
             "${CMAKE_SOURCE_DIR}/lib/rt64/src/contrib/dxc/bin/x64/dxcompiler.dll"
             $<TARGET_FILE_DIR:Zelda64Recompiled>)
 
+
+    # DLW: TODO: Cleanup UWP options, restore entrypoint settings
+    if(FALSE)
     set_target_properties(
         Zelda64Recompiled
         PROPERTIES
@@ -289,6 +293,7 @@ if (WIN32)
             LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"
             LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"
     )
+    endif()
 
     target_sources(Zelda64Recompiled PRIVATE ${CMAKE_SOURCE_DIR}/icons/app.rc)
     target_link_libraries(Zelda64Recompiled PRIVATE SDL2 Winmm.lib)

@@ -69,6 +69,8 @@ cmake -S . -B build-cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang 
 cmake --build build-cmake --target Zelda64Recompiled -j$(nproc) --config Release # or Debug
 ```
 
+For UWP, build the main project as normal, then build the provided accessory solution under vs2022-uwp.  The solution currently requires a build to be placed under `build-cmake`, if you used a different path you must modify the `RecompBuild` var in `uwp.vcxproj`.
+
 ## 6. Success
 
 Voilà! You should now have a `Zelda64Recompiled` executable in the build directory! If you used Visual Studio this will be `out/build/x64-[Configuration]` and if you used the provided CMake commands then this will be `build-cmake`. You will need to run the executable out of the root folder of this project or copy the assets folder to the build folder to run it.

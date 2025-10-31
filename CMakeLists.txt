@@ -19,6 +19,12 @@ endif()
 # Opt out of constexpr mutex constructor on windows to prevent vcredist issues
 if (WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR")
+
+    option(UWP_BUILD "Only build static libs, launch via external cmake project." OFF)
+
+    if (UWP_BUILD)
+        add_compile_definitions(_UWP)
+    endif()
 endif()
 
 if (APPLE)
@@ -145,8 +151,11 @@ add_custom_command(OUTPUT
 )
 
 # Main executable
-# DLW: Modded to a static lib for UWP launch
-add_library(Zelda64Recompiled STATIC)
+if (NOT UWP_BUILD)
+    add_executable(Zelda64Recompiled)
+else()
+    add_library(Zelda64Recompiled STATIC)
+endif()
 
 set (SOURCES
     ${CMAKE_SOURCE_DIR}/src/main/main.cpp
@@ -283,8 +292,7 @@ if (WIN32)
             $<TARGET_FILE_DIR:Zelda64Recompiled>)
 
 
-    # DLW: TODO: Cleanup UWP options, restore entrypoint settings
-    if(FALSE)
+    if(NOT UWP_BUILD)
     set_target_properties(
         Zelda64Recompiled
         PROPERTIES

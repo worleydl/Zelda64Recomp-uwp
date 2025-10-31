@@ -3,12 +3,14 @@
 #include "nfd.h"
 #include "RmlUi/Core.h"
 
+#ifdef _UWP
 extern "C" __declspec(dllimport) void uwp_PickAFile(char* path);
+#endif
 
 namespace zelda64 {
     // MARK: - Internal Helpers
     void perform_file_dialog_operation(const std::function<void(bool, const std::filesystem::path&)>& callback) {
-#if 0
+#ifndef _UWP
         nfdnchar_t* native_path = nullptr;
         nfdresult_t result = NFD_OpenDialogN(&native_path, nullptr, 0, nullptr);
 

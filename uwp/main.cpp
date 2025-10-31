@@ -2,7 +2,7 @@
 #include "SDL2/SDL.h"
 
 // If I don't include this for some reason the game_warps don't get initialized?
-#include "zelda_debug.h"
+#include "../include/zelda_debug.h"
 
 extern "C" __declspec(dllimport) void* uwp_GetWindowReference();
 
@@ -15,7 +15,7 @@ int bootstrap(int argc, char** argv)
 
 int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR argv, int argc)
 {
-	auto warps = zelda64::game_warps;
+    auto warps = zelda64::game_warps;
 
 	return SDL_WinRTRunApp(bootstrap, NULL);
 }
